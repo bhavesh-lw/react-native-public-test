@@ -13,10 +13,10 @@ jobs:
       - name: 🟢 node
         uses: actions/setup-node@v3
         with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org
+          node-version: 14.17.6
+      - name: Install Dependencies
+        run: npm install
       - name: 🚀 publish
-        run: npm publish --access public
-        working-directory: react-native-public-test
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{secrets.NPM_AUTH_TOKEN}}
