@@ -1,43 +1,22 @@
-name: CI
+name: '🚀 release'
 on:
-  push:
+  release:
+    types: [published]
 
 jobs:
-  lint:
+  release:
+    name: 🚀 release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: 📚 checkout
         uses: actions/checkout@v3
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Lint files
-        run: yarn lint
-
-      - name: Typecheck files
-        run: yarn typescript
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Run unit tests
-        run: yarn test --maxWorkers=2 --coverage
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Build package
-        run: yarn prepare
+      - name: 🟢 node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org
+      - name: 🚀 publish
+        run: npm publish --access public
+        working-directory: react-native-public-test
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
